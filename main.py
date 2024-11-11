@@ -15,6 +15,9 @@ from src.ml import process_data, inference
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 
+if "RENDER" in os.environ and os.path.exists("/var/tmp/dvc"):
+    os.system("rm -r /var/tmp/dvc")
+
 if "RENDER" in os.environ and os.path.isdir(".dvc"):
     os.system("dvc config core.no_scm true")
     os.system("dvc pull")
@@ -101,7 +104,6 @@ async def predict(input: ModelInput):
     input_df = pd.DataFrame(data=np.array([[input_dict.get(feature) for feature in features]]),
                             columns=features)
     
-    logging.info(os.environ)
     lb = joblib.load("model/lb.pkl")
     encoder = joblib.load("model/encoder.pkl")
     model = joblib.load("model/model.pkl")
