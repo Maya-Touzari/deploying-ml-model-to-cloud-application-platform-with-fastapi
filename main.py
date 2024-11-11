@@ -1,6 +1,9 @@
 # Import Union since our Item object will have tags that can be strings or a list.
+import os
+
 import joblib
 from typing import Literal
+import logging
 
 import numpy as np
 import pandas as pd
@@ -8,9 +11,13 @@ import uvicorn
 from fastapi import FastAPI
 # BaseModel from Pydantic is used to define data objects.
 from pydantic import BaseModel, ConfigDict
-
 from src.ml import process_data, inference
 
+logging.basicConfig(level=logging.INFO, format="%(message)s")
+
+if "render" in os.environ and os.path.isdir(".dvc"):
+    os.system("dvc config core.no_scm true")
+    os.system("dvc pull")
 
 app = FastAPI()
 
@@ -93,7 +100,8 @@ async def predict(input: ModelInput):
     input_dict = input.model_dump(by_alias=True)
     input_df = pd.DataFrame(data=np.array([[input_dict.get(feature) for feature in features]]),
                             columns=features)
-
+    
+    logging.info(os.environ)
     lb = joblib.load("model/lb.pkl")
     encoder = joblib.load("model/encoder.pkl")
     model = joblib.load("model/model.pkl")
