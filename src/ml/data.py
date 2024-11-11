@@ -1,9 +1,17 @@
+import joblib
+from os import path
+
 import numpy as np
+import pandas as pd
 from sklearn.preprocessing import LabelBinarizer, OneHotEncoder
 
 
+def import_data(path):
+    return pd.read_csv(path)
+
+
 def process_data(
-    X, categorical_features=[], label=None, training=True, encoder=None, lb=None
+    X, categorical_features=[], label=None, training=True, encoder=None, lb=None, dir="model"
 ):
     """ Process the data used in the machine learning pipeline.
 
@@ -54,10 +62,14 @@ def process_data(
     X_continuous = X.drop(*[categorical_features], axis=1)
 
     if training is True:
-        encoder = OneHotEncoder(sparse=False, handle_unknown="ignore")
+        encoder = OneHotEncoder(handle_unknown="ignore", sparse_output=False)
         lb = LabelBinarizer()
         X_categorical = encoder.fit_transform(X_categorical)
         y = lb.fit_transform(y.values).ravel()
+
+        joblib.dump(encoder, path.join(dir, 'encoder.pkl'))
+        joblib.dump(lb, path.join(dir, 'lb.pkl'))
+
     else:
         X_categorical = encoder.transform(X_categorical)
         try:
@@ -66,5 +78,5 @@ def process_data(
         except AttributeError:
             pass
 
-    X = np.concatenate([X_continuous, X_categorical], axis=1)
+    X = np.concatenate((X_continuous, X_categorical), axis=1)
     return X, y, encoder, lb

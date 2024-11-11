@@ -1,9 +1,11 @@
+import joblib
+from os import path
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import fbeta_score, precision_score, recall_score
 
 
 # Optional: implement hyperparameter tuning.
-def train_model(X_train, y_train):
+def train_model(X_train, y_train, dir="model"):
     """
     Trains a machine learning model and returns it.
 
@@ -19,9 +21,12 @@ def train_model(X_train, y_train):
         Trained machine learning model.
     """
 
-    model = RandomForestClassifier(n_jobs=-1, random_state=42)
+    model = RandomForestClassifier(
+        n_jobs=-1, random_state=1111, max_depth=35, class_weight="balanced")
 
     model.fit(X_train, y_train)
+
+    joblib.dump(model, path.join(dir, 'model.pkl'))
 
     return model
 
