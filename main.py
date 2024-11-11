@@ -60,7 +60,7 @@ async def say_hello():
     return {"greeting": "Hello, this app predicts income (<=50K, >50K)."}
 
 
-@app.post("/predict")
+@app.post("/predict", response_model_by_alias=True)
 async def predict(input: ModelInput):
     features = [
         "age",
@@ -93,8 +93,6 @@ async def predict(input: ModelInput):
     input_dict = input.model_dump(by_alias=True)
     input_df = pd.DataFrame(data=np.array([[input_dict.get(feature) for feature in features]]),
                             columns=features)
-
-    print(input_df)
 
     lb = joblib.load("model/lb.pkl")
     encoder = joblib.load("model/encoder.pkl")
