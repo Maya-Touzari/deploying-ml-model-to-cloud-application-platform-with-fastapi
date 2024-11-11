@@ -17,11 +17,11 @@ logging.basicConfig(level=logging.INFO, format="%(message)s")
 
 if "RENDER" in os.environ and os.path.isdir(".dvc"):
     logging.info("setting up dvc 1")
-    if os.path.exists("/var/tmp/dvc"):
-        logging.info("remove tmp dir")
-        os.system("rm -rf /var/tmp/dvc")
-    os.system("dvc config core.no_scm true")
-    logging.info("setting up dvc 2")
+    os.system("dvc config core.no_scm true core.site_cache_dir tmp/dvc")
+    # if os.path.exists("/var/tmp/dvc"):
+    #     logging.info("remove tmp dir")
+    #     os.system("rm -rf /var/tmp/dvc")
+    # logging.info("setting up dvc 2")
     os.system("dvc pull")
 
 # if "RENDER" in os.environ and os.path.exists("/var/tmp/dvc"):
