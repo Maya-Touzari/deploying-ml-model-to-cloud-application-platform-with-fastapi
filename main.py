@@ -16,11 +16,13 @@ from src.ml import process_data, inference
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 
 if "RENDER" in os.environ and os.path.isdir(".dvc"):
+    logging.info("setting up dvc")
     os.system("dvc config core.no_scm true")
     os.system("dvc pull")
 
 if "RENDER" in os.environ and os.path.exists("/var/tmp/dvc"):
-    os.system("rm -r /var/tmp/dvc")
+    logging.info("remove tmp dir")
+    os.system("rm -rf /var/tmp/dvc")
 
 app = FastAPI()
 
