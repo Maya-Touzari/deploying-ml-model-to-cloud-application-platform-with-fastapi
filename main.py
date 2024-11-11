@@ -60,7 +60,7 @@ async def say_hello():
     return {"greeting": "Hello, this app predicts income (<=50K, >50K)."}
 
 
-@app.post("/predict", response_model_by_alias=True)
+@app.post("/predict")
 async def predict(input: ModelInput):
     features = [
         "age",
