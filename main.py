@@ -15,7 +15,7 @@ from src.ml import process_data, inference
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 
-if "render" in os.environ and os.path.isdir(".dvc"):
+if "RENDER" in os.environ and os.path.isdir(".dvc"):
     os.system("dvc config core.no_scm true")
     os.system("dvc pull")
 
