@@ -1,3 +1,6 @@
+"""
+Module for training, inference and evaluating the model
+"""
 import joblib
 from os import path
 from sklearn.ensemble import RandomForestClassifier

@@ -1,4 +1,6 @@
-# Script to train machine learning model.
+"""
+Script to train machine learning model.
+"""
 import logging
 
 from sklearn.model_selection import train_test_split
@@ -10,12 +12,15 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)-15s %(message)s")
 
 
 def go():
+    logging.info(f"Importing data.")
     data = import_data("data/census_clean.csv")
 
     # Optional enhancement, use K-fold cross validation instead of a train-test split.
+    logging.info(f"Splitting data.")
     train, test = train_test_split(
         data, test_size=0.20, random_state=42, stratify=data["salary"])
-
+    
+    logging.info(f"Processing data.")
     cat_features = [
         "workclass",
         "education",  # may be remove, duplicate of education-num
@@ -34,11 +39,13 @@ def go():
     X_test, y_test, _, _ = process_data(
         test, categorical_features=cat_features, label="salary", training=False, encoder=encoder, lb=lb
     )
-
+    
+    logging.info(f"Training model.")
     model = train_model(X_train, y_train)
 
     y_pred = inference(model, X_test)
-
+    
+    logging.info(f"Computing metrics on test set.")
     precision, recall, fbeta = compute_model_metrics(y_test, y_pred)
     cl_report = classification_report(y_test, y_pred)
     logging.info(

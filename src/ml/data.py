@@ -1,3 +1,6 @@
+"""
+Module for importing and processing data
+"""
 import joblib
 from os import path
 
@@ -7,6 +10,19 @@ from sklearn.preprocessing import LabelBinarizer, OneHotEncoder
 
 
 def import_data(path):
+    """
+    Imports dataset in a pandas dataframe.
+
+    Inputs:
+    ------
+        path: str
+              Path to a csv file containing the data
+
+    Returns:
+    ------
+        pd.Dataframe
+    """
+    
     return pd.read_csv(path)
 
 

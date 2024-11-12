@@ -1,3 +1,6 @@
+"""
+Mudule for unit testing the render api
+"""
 from fastapi.testclient import TestClient
 
 from main import app
@@ -6,6 +9,9 @@ client = TestClient(app)
 
 
 def test_get_root():
+    """
+    Test root page
+    """
     r = client.get("/")
 
     assert r.status_code == 200
@@ -14,6 +20,9 @@ def test_get_root():
 
 
 def test_post_predict_inf():
+    """
+    Test prediction when expected result is <=50K
+    """
 
     r = client.post("/predict", json={
         "age": 38,
@@ -37,6 +46,10 @@ def test_post_predict_inf():
 
 
 def test_post_predict_sup():
+    """
+    Test prediction when expected result is >50K
+    """
+        
     r = client.post("/predict", json={
         "age": 43,
         "workclass": "Self-emp-not-inc",

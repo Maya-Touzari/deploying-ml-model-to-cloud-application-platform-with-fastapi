@@ -1,3 +1,6 @@
+"""
+Module for unit testing the ml module
+"""
 import os
 from os import path
 import logging
@@ -11,6 +14,7 @@ from src.ml import import_data, process_data, train_model
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)-15s %(message)s")
 
+# Create temporary directory
 PATH = 'test_temp_dir'
 if not os.path.exists(PATH):
     os.mkdir(PATH)
@@ -21,6 +25,7 @@ def data():
     """
     Fixture - returns dataset
     """
+
     try:
         df = import_data("data/census_clean.csv")
         logging.info("Data fixture: SUCCESS")
@@ -37,6 +42,7 @@ def processed_data(data):
     """
     Fixture - returns processed dataset
     """
+
     cat_features = [
         "workclass",
         "education",  # may be remove, duplicate of education-num
@@ -61,9 +67,10 @@ def processed_data(data):
 
 
 def test_import_data(data):
-    '''
+    """
     Test data import - this example is completed for you to assist with the other test functions
-    '''
+    """
+
     try:
         assert data.shape[0] > 0
         assert data.shape[1] > 0
@@ -76,6 +83,9 @@ def test_import_data(data):
 
 
 def test_data_process(processed_data):
+    """ 
+    Test data processing 
+    """
 
     X, y, encoder, lb = processed_data
     try:
@@ -96,6 +106,9 @@ def test_data_process(processed_data):
 
 
 def test_train_model(processed_data):
+    """ 
+    Test model training 
+    """
 
     X, y, _, _ = processed_data
     try:

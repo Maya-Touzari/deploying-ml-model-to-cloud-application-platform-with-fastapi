@@ -1,4 +1,6 @@
-# Import Union since our Item object will have tags that can be strings or a list.
+"""
+Script for the API
+"""
 import os
 
 import joblib
