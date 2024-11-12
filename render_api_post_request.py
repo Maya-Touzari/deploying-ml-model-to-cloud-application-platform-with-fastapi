@@ -12,16 +12,16 @@ features = {
     "workclass": "Federal-gov",
     "fnlgt": 125933,
     "education": "Masters",
-    "education_num": 14,
-    "marital_status": "Married-civ-spouse",
+    "education-num": 14,
+    "marital-status": "Married-civ-spouse",
     "occupation": "Prof-specialty",
     "relationship": "Husband",
     "race": "White",
     "sex": "Male",
-    "capital_gain": 0,
-    "capital_loss": 0,
-    "hours_per_week": 40,
-    "native_country": "Iran"
+    "capital-gain": 0,
+    "capital-loss": 0,
+    "hours-per-week": 40,
+    "native-country": "Iran"
 }
 
 app_url = "https://deploying-ml-model-to-cloud-application.onrender.com/predict"
