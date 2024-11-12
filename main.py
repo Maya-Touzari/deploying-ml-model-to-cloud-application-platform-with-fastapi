@@ -16,18 +16,9 @@ from src.ml import process_data, inference
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 
 if "RENDER" in os.environ and os.path.isdir(".dvc"):
-    logging.info("setting up dvc 1")
     os.system("dvc config core.no_scm true")
     os.system("dvc config core.site_cache_dir ./tmp/dvc")
-    # if os.path.exists("/var/tmp/dvc"):
-    #     logging.info("remove tmp dir")
-    #     os.system("rm -rf /var/tmp/dvc")
-    # logging.info("setting up dvc 2")
     os.system("dvc pull")
-
-# if "RENDER" in os.environ and os.path.exists("/var/tmp/dvc"):
-#     logging.info("remove tmp dir")
-#     os.system("rm -rf /var/tmp/dvc")
 
 app = FastAPI()
 
@@ -110,7 +101,7 @@ async def predict(input: ModelInput):
     input_dict = input.model_dump(by_alias=True)
     input_df = pd.DataFrame(data=np.array([[input_dict.get(feature) for feature in features]]),
                             columns=features)
-    
+
     lb = joblib.load("model/lb.pkl")
     encoder = joblib.load("model/encoder.pkl")
     model = joblib.load("model/model.pkl")
