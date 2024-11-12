@@ -44,16 +44,22 @@ def slice_perf():
     y_pred = inference(model, X)
 
     logging.info("Computing metrics on feature slices")
+    lines = []
     for feature in cat_features:
         for cls in data[feature].dropna().unique():
-            logging.info(f"feature:  {feature}  value: {cls}")
             idx = data[data[feature] == cls].index.to_numpy()
             y_cls = y[idx]
             y_pred_cls = y_pred[idx]
 
             precision, recall, fbeta = compute_model_metrics(y_cls, y_pred_cls)
-            logging.info(
-                f"Precision: {precision: .2f}. Recall: {recall: .2f}. Fbeta: {fbeta: .2f}")
+            lines.append(
+                f"{feature} == {cls} :: Precision: {precision: .2f}. Recall: {recall: .2f}. Fbeta: {fbeta: .2f} \n")
+
+    with open("slice_output.txt", "w") as file:
+        for line in lines:
+            file.write(line)
+
+    logging.info("Slice metrics saved in slice_output.txt")
 
 
 if __name__ == "__main__":

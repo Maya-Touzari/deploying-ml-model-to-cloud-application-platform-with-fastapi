@@ -30,7 +30,26 @@ def hyphenize(field: str):
 
 
 class ModelInput(BaseModel):
-    model_config = ConfigDict(alias_generator=hyphenize)
+    model_config = ConfigDict(alias_generator=hyphenize,
+                              json_schema_extra={
+                                  "examples": [
+                                      {"age": 43,
+                                       "workclass": "Self-emp-not-inc",
+                                       "fnlgt": 292175,
+                                       "education": "Masters",
+                                       "education-num": 14,
+                                       "marital-status": "Divorced",
+                                       "occupation": "Exec-managerial",
+                                       "relationship": "Unmarried",
+                                       "race": "White",
+                                       "sex": "Female",
+                                       "capital-gain": 0,
+                                       "capital-loss": 0,
+                                       "hours-per-week": 45,
+                                       "native-country": "United-States"}
+                                  ]
+                              }
+                              )
 
     age: int
     workclass: Literal['State-gov', 'Self-emp-not-inc', 'Private',
@@ -118,4 +137,4 @@ async def predict(input: ModelInput):
 
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, creload=True)
